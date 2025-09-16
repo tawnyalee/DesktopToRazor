@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lab: Desktop → Razor MVC</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="navbar">
+    <a href="index.html">Lab Steps</a>
+    <a href="cheatsheet.html">Cheat Sheet</a>
+  </div>
+
+  <h1>💻 Lab: Converting a Desktop WinForms App to a Razor MVC Web App</h1>
+
+  <div class="section">
+    <h2>Objective</h2>
+    <p>
+      In this lab, you’ll take a simple C# WinForms desktop application and use it as the basis to develop a Razor MVC web application in .NET 8.
+      The web app will have the same features as the desktop version:
+    </p>
+    <ul>
+      <li>Enter a <strong>Name</strong> and <strong>Age</strong></li>
+      <li>Click <strong>Create Customer</strong> to display a saved message</li>
+      <li>Click <strong>Double Age</strong> to calculate twice the entered age</li>
+    </ul>
+    <p>
+      By the end, you will have a working Razor MVC web app called <code>DesktopToRazor</code>.
+    </p>
+  </div>
+
+  <div class="section">
+    <h2>Step 1 – Set Up the Project</h2>
+    <ol>
+      <li>Open <strong>Visual Studio 2022 Community Edition</strong>.</li>
+      <li>Go to <strong>File → New → Project</strong>.</li>
+      <li>Select <strong>ASP.NET Core Web App (Model-View-Controller)</strong>.</li>
+      <li>Name the project <code>DesktopToRazor</code> and choose a folder location.</li>
+      <li>Target Framework: <strong>.NET 8.0 (Long Term Support)</strong>.</li>
+      <li>Authentication: <strong>None</strong>.</li>
+      <li>Uncheck <strong>Enable HTTPS</strong> to avoid confusion.</li>
+      <li>Click <strong>Create</strong>.</li>
+    </ol>
+    <p>Your MVC project is now set up.</p>
+  </div>
+
+  <div class="section">
+    <h2>Step 2 – Reuse Your Logic Classes</h2>
+    <p>From your desktop project, you already have three logic classes: <code>Customer.cs</code>, <code>Calculator.cs</code>, and <code>CustomerHelper.cs</code>. We will reuse them in the web app.</p>
+    <ol>
+      <li>In Solution Explorer, right-click <strong>Models</strong> → <strong>Add</strong> → <strong>Class</strong>.</li>
+      <li>Create <code>Customer.cs</code> with this code:</li>
+      <pre><code>namespace DesktopToRazor.Models
+{
+    public class Customer
+    {
+        public string Name { get; set; }
+        public int Age { get; set; }
+    }
+}</code></pre>
+
+      <li>Create <code>Calculator.cs</code> in the same folder:</li>
+      <pre><code>namespace DesktopToRazor.Models
+{
+    public class Calculator
+    {
+        public int DoubleAge(int age)
+        {
+            return age * 2;
+        }
+    }
+}</code></pre>
+
+      <li>Create <code>CustomerHelper.cs</code> in the same folder:</li>
+      <pre><code>namespace DesktopToRazor.Models
+{
+    public class CustomerHelper
+    {
+        public string GetCustomerInfo(Customer customer)
+        {
+            return $"Customer: {customer.Name}, Age: {customer.Age}";
+        }
+    }
+}</code></pre>
+    </ol>
+  </div>
+
+  <div class="section">
+    <h2>Step 3 – Create the Controller</h2>
+    <p>Controllers handle user actions and decide what to show. We’ll create a new <code>CustomerController</code> to manage form input and button clicks.</p>
+    <ol>
+      <li>In Solution Explorer, right-click <strong>Controllers</strong> → <strong>Add</strong> → <strong>Class</strong>.</li>
+      <li>Name it <code>CustomerController.cs</code>.</li>
+      <li>Add this code:</li>
+      <pre><code>using Microsoft.AspNetCore.Mvc;
+using DesktopToRazor.Models;
+
+namespace DesktopToRazor.Controllers
+{
+    public class CustomerController : Controller
+    {
+        private static Customer? _customer;
+
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult CreateCustomer(string name, int age)
+        {
+            var customer = new Customer { Name = name, Age = age };
+            _customer = customer;
+
+            var helper = new CustomerHelper();
+            ViewBag.Message = helper.GetCustomerInfo(customer) + " - Customer Saved!";
+            return View("Index");
+        }
+
+        [HttpPost]
+        public IActionResult DoubleAge(int age)
+        {
+            var calculator = new Calculator();
+            int doubled = calculator.DoubleAge(age);
+
+            ViewBag.Message = $"Doubled Age: {doubled}";
+            return View("Index");
+        }
+    }
+}</code></pre>
+    </ol>
+  </div>
+
+  <div class="section">
+    <h2>Step 4 – Create the View</h2>
+    <p>The view is the HTML form where the user types in data. We’ll create <code>Index.cshtml</code> for our form.</p>
+    <ol>
+      <li>In Solution Explorer, right-click <strong>Views</strong> → <strong>Add → New Folder</strong>, name it <code>Customer</code>.</li>
+      <li>Inside <code>Customer</code>, right-click → <strong>Add → Razor View → Empty</strong>, name it <code>Index.cshtml</code>.</li>
+      <li>Add this code:</li>
+      <pre><code>@{
+    ViewData["Title"] = "Customer Form";
+}
+
+&lt;h2&gt;Customer Form&lt;/h2&gt;
+
+&lt;form asp-action="CreateCustomer" method="post"&gt;
+    &lt;label&gt;Name:&lt;/label&gt;
+    &lt;input type="text" name="name" /&gt;&lt;br /&gt;&lt;br /&gt;
+
+    &lt;label&gt;Age:&lt;/label&gt;
+    &lt;input type="number" name="age" /&gt;&lt;br /&gt;&lt;br /&gt;
+
+    &lt;button type="submit"&gt;Create Customer&lt;/button&gt;
+&lt;/form&gt;
+
+&lt;br /&gt;
+
+&lt;form asp-action="DoubleAge" method="post"&gt;
+    &lt;label&gt;Age:&lt;/label&gt;
+    &lt;input type="number" name="age" /&gt;&lt;br /&gt;&lt;br /&gt;
+
+    &lt;button type="submit"&gt;Double Age&lt;/button&gt;
+&lt;/form&gt;
+
+&lt;br /&gt;
+
+&lt;div style="margin-top:20px; color:green;"&gt;
+    @ViewBag.Message
+&lt;/div&gt;</code></pre>
+    </ol>
+  </div>
+
+  <div class="section">
+    <h2>Step 5 – Update the Program.cs Routing</h2>
+    <p>By default, MVC apps point to <code>HomeController</code>. We want our app to open <code>CustomerController</code> instead.</p>
+    <ol>
+      <li>Open <code>Program.cs</code>.</li>
+      <li>Find the <code>app.MapControllerRoute</code> line and replace it with:</li>
+      <pre><code>app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Customer}/{action=Index}/{id?}");</code></pre>
+    </ol>
+  </div>
+
+  <div class="section">
+    <h2>Step 6 – Run the Application</h2>
+    <ol>
+      <li>Press <strong>Ctrl + F5</strong> to start without debugging.</li>
+      <li>Your browser will open to <code>http://localhost:5000</code>.</li>
+      <li>Enter a name and age.</li>
+      <li>Click <strong>Create Customer</strong> → You’ll see “Customer Saved” with details.</li>
+      <li>Click <strong>Double Age</strong> → You’ll see the doubled age result.</li>
+    </ol>
+  </div>
+
+  <div class="section note">
+    <h2>Summary</h2>
+    <p>
+      ✅ You reused your desktop logic classes (<code>Customer</code>, <code>Calculator</code>, <code>CustomerHelper</code>).<br>
+      ✅ You created a new controller (<code>CustomerController</code>).<br>
+      ✅ You added a Razor view (<code>Index.cshtml</code>).<br>
+      ✅ You updated routing in <code>Program.cs</code>.<br><br>
+      Your desktop app is now working as a Razor MVC web app!
+    </p>
+  </div>
+</body>
+</html>
