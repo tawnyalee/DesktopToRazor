@@ -1,79 +1,67 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cheat Sheet: Desktop → Razor MVC</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <div class="navbar">
-    <a href="index.html">Lab Steps</a>
-    <a href="cheatsheet.html">Cheat Sheet</a>
-  </div>
-
-  <h1>📝 Cheat Sheet – Desktop → Razor MVC Conversion</h1>
-
-  <div class="section">
-    <h2>1. Create the Project</h2>
-    <ul>
-      <li>New Project: <strong>ASP.NET Core Web App (Model-View-Controller)</strong></li>
-      <li>Name: <code>DesktopToRazor</code></li>
-      <li>Framework: <strong>.NET 8</strong></li>
-      <li>Options: Authentication = None, Uncheck HTTPS</li>
-    </ul>
-  </div>
-
-  <div class="section">
-    <h2>2. Models (Logic Layer)</h2>
-    <p>📂 Location: <code>DesktopToRazor/Models/</code></p>
-    <ul>
-      <li><code>Customer.cs</code> → Reused from desktop</li>
-      <li><code>Calculator.cs</code> → Reused from desktop</li>
-      <li><code>CustomerHelper.cs</code> → Reused from desktop</li>
-    </ul>
-  </div>
-
-  <div class="section">
-    <h2>3. Controller</h2>
-    <p>📂 Location: <code>DesktopToRazor/Controllers/</code></p>
-    <ul>
-      <li><code>CustomerController.cs</code> → New</li>
-    </ul>
-  </div>
-
-  <div class="section">
-    <h2>4. Views</h2>
-    <p>📂 Location: <code>DesktopToRazor/Views/Customer/</code></p>
-    <ul>
-      <li><code>Index.cshtml</code> → New</li>
-    </ul>
-  </div>
-
-  <div class="section">
-    <h2>5. Routing</h2>
-    <p>Edit <code>Program.cs</code> route:</p>
-    <pre><code>app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Customer}/{action=Index}/{id?}");</code></pre>
-  </div>
-
-  <div class="section">
-    <h2>6. Run the App</h2>
-    <ul>
-      <li>Press <code>Ctrl+F5</code></li>
-      <li>Open <code>http://localhost:5000</code></li>
-      <li>Test both buttons</li>
-    </ul>
-  </div>
-
-  <div class="section note">
-    <h2>Summary</h2>
-    <p>
-      <strong>Reused:</strong> Customer.cs, Calculator.cs, CustomerHelper.cs<br>
-      <strong>New:</strong> CustomerController.cs, Index.cshtml<br>
-      <strong>Edited:</strong> Program.cs
-    </p>
-  </div>
-</body>
-</html>
+body {
+  font-family: Arial, sans-serif;
+  margin: 2rem auto;
+  max-width: 850px;
+  line-height: 1.6;
+  color: #222;
+  background: #f9f9f9;
+  padding: 1rem;
+}
+h1, h2, h3 {
+  color: #333;
+}
+h1 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+.navbar {
+  background: #333;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+.navbar a {
+  color: white;
+  text-decoration: none;
+  margin: 0 1rem;
+  font-weight: bold;
+}
+.navbar a:hover {
+  text-decoration: underline;
+}
+.section {
+  background: #fff;
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.section h2 {
+  margin-top: 0;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 0.5rem;
+}
+pre {
+  background: #eee;
+  padding: 0.8rem;
+  border-radius: 6px;
+  overflow-x: auto;
+}
+code {
+  background: #eee;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+ul {
+  margin: 0.5rem 0 0 1.5rem;
+}
+li {
+  margin-bottom: 0.4rem;
+}
+.note {
+  background: #eaf7ea;
+  border: 1px solid #b5d6b5;
+  padding: 0.6rem;
+  border-radius: 6px;
+}
