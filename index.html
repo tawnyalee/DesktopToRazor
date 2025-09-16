@@ -29,9 +29,16 @@
       By the end, you will have a working Razor MVC web app called <code>DesktopToRazor</code>.
     </p>
   </div>
-
   <div class="section">
-    <h2>Step 1 – Set Up the Project</h2>
+      <h2>Step 1 - Download the Desktop App</h2>
+      <ol>
+        <li>Download the <a href="MyDesktopApp.zip" target="_blank" alt="zipped project file">Desktop App</a>.</li>
+        <li>Open the project in Visual Studieo 2022.</li>
+        <li>Review the contents and familiarize yourself with the form, the model, and the classes.</li>
+      </ol>
+  </div> 
+  <div class="section">
+    <h2>Step 2 – Set Up the Project</h2>
     <ol>
       <li>Open <strong>Visual Studio 2022 Community Edition</strong>.</li>
       <li>Go to <strong>File → New → Project</strong>.</li>
@@ -46,7 +53,7 @@
   </div>
 
   <div class="section">
-    <h2>Step 2 – Reuse Your Logic Classes</h2>
+    <h2>Step 3 – Reuse Your Logic Classes</h2>
     <p>From your desktop project, you already have three logic classes: <code>Customer.cs</code>, <code>Calculator.cs</code>, and <code>CustomerHelper.cs</code>. We will reuse them in the web app.</p>
     <ol>
       <li>In Solution Explorer, right-click <strong>Models</strong> → <strong>Add</strong> → <strong>Class</strong>.</li>
@@ -87,7 +94,7 @@
   </div>
 
   <div class="section">
-    <h2>Step 3 – Create the Controller</h2>
+    <h2>Step 4 – Create the Controller</h2>
     <p>Controllers handle user actions and decide what to show. We’ll create a new <code>CustomerController</code> to manage form input and button clicks.</p>
     <ol>
       <li>In Solution Explorer, right-click <strong>Controllers</strong> → <strong>Add</strong> → <strong>Class</strong>.</li>
@@ -133,7 +140,7 @@ namespace DesktopToRazor.Controllers
   </div>
 
   <div class="section">
-    <h2>Step 4 – Create the View</h2>
+    <h2>Step 5 – Create the View</h2>
     <p>The view is the HTML form where the user types in data. We’ll create <code>Index.cshtml</code> for our form.</p>
     <ol>
       <li>In Solution Explorer, right-click <strong>Views</strong> → <strong>Add → New Folder</strong>, name it <code>Customer</code>.</li>
@@ -173,7 +180,7 @@ namespace DesktopToRazor.Controllers
   </div>
 
   <div class="section">
-    <h2>Step 5 – Update the Program.cs Routing</h2>
+    <h2>Step 6 – Update the Program.cs Routing</h2>
     <p>By default, MVC apps point to <code>HomeController</code>. We want our app to open <code>CustomerController</code> instead.</p>
     <ol>
       <li>Open <code>Program.cs</code>.</li>
@@ -185,7 +192,7 @@ namespace DesktopToRazor.Controllers
   </div>
 
   <div class="section">
-    <h2>Step 6 – Run the Application</h2>
+    <h2>Step 7 – Run the Application</h2>
     <ol>
       <li>Press <strong>Ctrl + F5</strong> to start without debugging.</li>
       <li>Your browser will open to <code>http://localhost:5000</code>.</li>
